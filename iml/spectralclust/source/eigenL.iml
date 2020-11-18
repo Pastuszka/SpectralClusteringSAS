@@ -1,0 +1,7 @@
+start eigenL(m, k);
+	degree = diag(m[,+]);
+	laplacian = degree - m;
+	call eigen(val, rvec, laplacian);
+	vectors = rvec[,(ncol(rvec)-k+1):(ncol(rvec)-1)]; 
+	return vectors;
+finish;
