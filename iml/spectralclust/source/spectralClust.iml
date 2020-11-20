@@ -1,0 +1,19 @@
+start spectralClust(m, k, laplacian, neighbourhood, nparam);
+
+	if neighbourhood = 'gaussian' then m = gaussNeigh(m, nparam);
+	else if neighbourhood = 'none' then;
+	else
+	do;
+		put 'unrecognized neighbourhood type. Using default gaussian';
+		 m = gaussNeigh(m, nparam);
+	end;
+	
+	if laplacian = 'normalizedRW' then m = eigenLRW(m, k);
+	else if laplacian = 'unnormalized' then m = eigenL(m, k);
+	else
+	do;
+		put 'unrecognized laplacian type. Using default normalizedRW';
+		m = eigenLRW(m, k);
+	end;
+	return m;
+finish;

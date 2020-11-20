@@ -7,3 +7,4 @@ RequiresIML: 15.1
 SourceFiles: eigenL.iml
              eigenLRW.iml
              gaussNeigh.iml
+             spectralClust.iml
