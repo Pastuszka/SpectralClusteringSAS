@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE Component PUBLIC
+	"-//SAS//EnterpriseMiner DTD Components 1.3//EN"
+	"Components.dtd">
+
+<Component
+	type="AF"
+	resource="com.sas.analytics.eminer.visuals.PropertyBundle"
+	serverclass="EM6"
+	name="Specc"
+	displayName="Spectral Clustering"
+	description="Perform spectral clustering"
+	group="EXPLORE"
+	icon="SpectralClustering.gif"
+	prefix="Specc" >
+
+<PropertyDescriptors>
+<Property
+	type="String"
+	name="Location"
+	initial="CATALOG" />
+
+<Property
+	type="String"
+	name="Catalog"
+	initial="SASHELP.SPECC.REG.SOURCE" />
+
+<Property
+	type="String"
+	name="VariableSet"
+	displayName="Variables"
+	description="Variable Properties">
+	<Control>
+		<Dialog
+			class="com.sas.analytics.eminer.visuals.VariablesDialog"
+			showValue="N" />
+	</Control>
+</Property>
+
+<Property
+	type="int"
+	name="ClusterNum"
+	displayName="Number of Clusters"
+	description="Indicates the number of clusters to be detected in data"
+	initial="2" >
+	<Control>
+		<Range min="2" excludeMin="N" />
+	</Control>
+</Property>
+
+<Property
+	type="String"
+	name="Neighborhood"
+	displayName="Neighborhood Matrix Type"
+	description="Indicates the type of neighborhood matrix used to create neighborhood graph"
+	initial="None" >
+	<Control>
+		<ChoiceList>
+		<Choice rawValue="None"/>
+		<Choice rawValue="KNN"/>
+		</ChoiceList>
+	</Control>
+</Property>
+
+<Property
+	type="String"
+	name="Laplacian"
+	displayName="Laplacian Type"
+	description="Indicates the type of laplacian used in spectral clustering algorithm"
+	initial="normalizedRW" >
+	<Control>
+		<ChoiceList>
+		<Choice rawValue="unnormalized"/>
+		<Choice rawValue="normalizedRW"/>
+		</ChoiceList>
+	</Control>
+</Property>
+
+<Property
+	type="String"
+	name="NeighFun"
+	displayName="Neighborhood Function"
+	description="Indicates the type of neighborhood function used to calculate distances in neighborhood graph"
+	initial="gaussian" >
+	<Control>
+		<ChoiceList>
+		<Choice rawValue="none"/>
+		<Choice rawValue="gaussian" displayValue="Gaussian Function"/>
+		</ChoiceList>
+	</Control>
+</Property>
+
+
+
+<Property
+	type="double"
+	name="Sigma"
+	displayName="Sigma"
+	description="Indicates the sigma parameter in gaussian function"
+	initial="1.0" >
+	<Control>
+		<Range min="0" excludeMin="Y" />
+	</Control>
+</Property>
+
+</PropertyDescriptors>
+<Views>
+	<View name="Train">
+		<PropertyRef nameref="VariableSet"/>
+		<PropertyRef nameref="ClusterNum"/>
+		<PropertyRef nameref="Laplacian"/>
+		<PropertyRef nameref="NeighFun"/>
+		<PropertyRef nameref="Sigma"/>
+	</View>
+</Views>
+
+</Component>
