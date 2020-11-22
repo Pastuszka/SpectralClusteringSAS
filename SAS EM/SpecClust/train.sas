@@ -1,6 +1,13 @@
 %macro train;
 	%em_getname(key=vectors, TYPE=DATA);
 	
+	%if (^%sysfunc(exist(&EM_IMPORT_DATA)) and
+		^%sysfunc(exist(&EM_IMPORT_DATA, VIEW)))
+		or "&EM_IMPORT_DATA" eq "" %then %do;
+		%let EMEXCEPTIONSTRING = exception.server.IMPORT.NOTRAIN,1;
+		%goto doenda;
+	%end;
+	
 	proc iml;
     
 		package load spectralclust;
@@ -16,4 +23,5 @@
 			append from m;
 		close &em_user_vectors;
 	quit;
+	%doenda:
 %mend train;
