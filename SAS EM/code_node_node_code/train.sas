@@ -5,9 +5,9 @@
 proc iml;
     
 	package load spectralclust;
-	
+	varnames = { %EM_INTERVAL };
 	use &em_import_data;
-		read all var _num_ into m;
+		read all var varnames into m;
 	close &em_import_data;
 	
 	m = spectralClust(m, 3, 'normalizedRW', 'gaussian', 1);
