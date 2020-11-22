@@ -23,7 +23,7 @@
 <Property
 	type="String"
 	name="Catalog"
-	initial="SASHELP.SPECC.REG.SOURCE" />
+	initial="SASHELP.SPECC.SPCL.SOURCE" />
 
 <Property
 	type="String"
