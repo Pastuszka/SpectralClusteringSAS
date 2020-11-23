@@ -11,7 +11,7 @@
 	proc iml;
     
 		package load spectralclust;
-		varnames = { %EM_INTERVAL_INPUT };
+		varnames = { %EM_INTERVAL_INPUT %EM_ORDINAL_INPUT %EM_BINARY_INPUT };
 		print 'Used variables:';
 		print varnames;
 
