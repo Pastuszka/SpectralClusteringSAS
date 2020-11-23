@@ -1,10 +1,19 @@
-%macro train;
+﻿%macro train;
 	%em_getname(key=vectors, TYPE=DATA);
 	
 	%if (^%sysfunc(exist(&EM_IMPORT_DATA)) and
 		^%sysfunc(exist(&EM_IMPORT_DATA, VIEW)))
 		or "&EM_IMPORT_DATA" eq "" %then %do;
 		%let EMEXCEPTIONSTRING = exception.server.IMPORT.NOTRAIN,1;
+		%goto doenda;
+	%end;
+
+	%if (%EM_INTERVAL_INPUT %EM_ORDINAL_INPUT  %EM_BINARY_INPUT eq ) %then %do;
+		%let EMEXCEPTIONSTRING = ERROR;
+		%put &em_codebar;
+		%put Error: Must use at least one
+			interval, ordinal or binary input;
+		%put &em_codebar;
 		%goto doenda;
 	%end;
 	
