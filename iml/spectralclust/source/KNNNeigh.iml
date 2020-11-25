@@ -1,0 +1,28 @@
+start gaussNeigh(m, sigma, k);
+
+	distance = j(nrow(m), nrow(m), 0);
+	neighborhood = j(nrow(m), nrow(m), 0);
+	
+	do i=1 to nrow(m);
+		do j=i+1 to nrow(m);
+			dist = sqrt(ssq(m[i,]-m[j,]));
+			distance[i,j] = dist;
+			distance[j,i] = dist;
+			dist = exp(-ssq(m[i,]-m[j,])/(2*sigma**2));
+			neighborhood[i,j] = dist;
+			neighborhood[j,i] = dist;
+		end;
+	end;
+	
+	do i=1 to nrow(m);
+		distances = distance[i,];
+		ranked = rank(distances);
+		print ranked;
+		do j=1 to nrow(m);
+			if ranked[j] > k+1 then
+			do;
+				neighborhood[i,j] = 0;
+			end;
+		end;
+	end;
+finish;
