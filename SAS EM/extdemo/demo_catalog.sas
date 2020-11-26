@@ -48,3 +48,4 @@
 %mend CreateSources;
 
 %CreateSources(C:\Users\wojte\Documents\SpectralClusteringSAS\SAS EM\SpecClust, specc, specc)
+LIBNAME specc CLEAR;
