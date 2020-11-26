@@ -1,4 +1,14 @@
-﻿%macro train;
+﻿%macro getNObs(inds, nobs);
+/*macro for setting macrovariable numobs with number of observations in dataset inds*/                                                                                                          
+    %global &nobs;                                                                                                                      
+    data _null_;                                                                                                                        
+        set &inds end=eof;                                                                                                              
+        if eof then call symputx("&nobs", _N_);                                                                                          
+    run;                                                                                                                                
+    quit;                                                                                                                               
+%mend  getNObs;
+
+%macro train;
 	%em_getname(key=vectors, TYPE=DATA);
 	
 	%if (^%sysfunc(exist(&EM_IMPORT_DATA)) and
@@ -11,8 +21,19 @@
 	%if (%EM_INTERVAL_INPUT %EM_ORDINAL_INPUT  %EM_BINARY_INPUT eq ) %then %do;
 		%let EMEXCEPTIONSTRING = ERROR;
 		%put &em_codebar;
-		%put Error: Must use at least one
-			interval, ordinal or binary input;
+		%put Error: Must use at least one interval, ordinal or binary input;
+		%put &em_codebar;
+		%goto doenda;
+	%end;
+
+	%getNObs(&EM_IMPORT_DATA, indsNObs);
+	%put Number of observations in dataset: &indsNObs;
+
+	%if %SYSEVALF(&EM_PROPERTY_ClusterNum >= &indsNObs) %then %do;
+		%let EMEXCEPTIONSTRING = ERROR;
+		%put &em_codebar;
+		%put Error: Number of clusters(&EM_PROPERTY_ClusterNum) should be smaller than;
+		%put number of observations(&indsNObs);
 		%put &em_codebar;
 		%goto doenda;
 	%end;
