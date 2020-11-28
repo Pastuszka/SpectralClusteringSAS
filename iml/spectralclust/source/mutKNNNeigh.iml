@@ -4,6 +4,6 @@ start KNNNeigh(neigh, k);
 		y = neigh[loc(rank(neigh[,i])=n-k+1),i];
 		neigh[loc(neigh[,i]<y),i] = 0;
 	end;
-	neigh = neigh <> neigh`;
+	neigh = neigh >< neigh`;
 	return neigh;
 finish;

@@ -21,7 +21,7 @@ proc iml;
 		read all var _num_ into m;
 	close clust.jain_x;
 	
-	m = spectralClust(m, 2, 'normalizedRW', 'gaussian', 1);
+	m = spectralClust(m, 2, 'normalizedRW', 'gaussian', 1, 'knn', 10);
 	
 	create clust.out from m;
 		append from m;
@@ -29,6 +29,9 @@ proc iml;
 quit;
 
 /* use a normal clustering method on the resulting dataset */
+/* in this example we will use proc clust, 
+but other options are available, depending on your sas version */
+
 
 proc cluster data = clust.out method = centroid ccc print=15 outtree=Tree noprint;
 run;
