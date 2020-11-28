@@ -1,8 +1,0 @@
-start gaussNeigh(m, sigma);
-	
-	neigh = exp(-(distance(m, "L2")##2)/(2*sigma**2));
-	neigh = neigh - diag(vecdiag(neigh));;
-	
-	return neigh;
-	
-finish;

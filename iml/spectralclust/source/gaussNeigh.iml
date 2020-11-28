@@ -1,14 +1,7 @@
 start gaussNeigh(m, sigma);
-
-	neigh = j(nrow(m), nrow(m), 0);
 	
-	do i=1 to nrow(m);
-		do j=i+1 to nrow(m);
-			dist = exp(-ssq(m[i,]-m[j,])/(2*sigma**2));
-			neigh[i,j] = dist;
-			neigh[j,i] = dist;
-		end;
-	end;
+	neigh = exp(-(distance(m, "L2")##2)/(2*sigma**2));
+	neigh = neigh - diag(vecdiag(neigh));;
 	
 	return neigh;
 	
