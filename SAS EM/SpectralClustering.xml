@@ -57,7 +57,8 @@
 	<Control>
 		<ChoiceList>
 		<Choice rawValue="None"/>
-		<Choice rawValue="KNN"/>
+		<Choice rawValue="knn"/>
+		<Choice rawValue="mutual_knn"/>
 		</ChoiceList>
 	</Control>
 </Property>
@@ -91,7 +92,6 @@
 </Property>
 
 
-
 <Property
 	type="double"
 	name="Sigma"
@@ -118,6 +118,18 @@
 	</Control>
 </Property>
 
+<Property
+	type="int"
+	name="K"
+	displayName="K"
+	description="Indicates the number of nearest neighbors used in KNN neighborhood type"
+	initial="10" >
+	<Control>
+		<Range min="1" excludeMin="N" />
+	</Control>
+</Property>
+
+
 </PropertyDescriptors>
 <Views>
 	<View name="Train">
@@ -126,6 +138,8 @@
 		<PropertyRef nameref="Laplacian"/>
 		<PropertyRef nameref="NeighFun"/>
 		<PropertyRef nameref="Sigma"/>
+		<PropertyRef nameref="Neighborhood"/>
+		<PropertyRef nameref="K"/>
 	</View>
 	<View name="Score">
 		<PropertyRef nameref="ClustFun"/>
