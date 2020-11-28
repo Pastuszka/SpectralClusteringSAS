@@ -1,4 +1,4 @@
-﻿%macro getNObs(inds, nobs);
+%macro getNObs(inds, nobs);
 /*macro for setting macrovariable numobs with number of observations in dataset inds*/                                                                                                          
     %global &nobs;                                                                                                                      
     data _null_;                                                                                                                        
@@ -49,7 +49,8 @@
 		read all var varnames into m;
 		close &em_import_data;
 
-		m = spectralClust(m, &EM_PROPERTY_ClusterNum , "&EM_PROPERTY_Laplacian.", "&EM_PROPERTY_NeighFun.", &EM_PROPERTY_Sigma );
+		m = spectralClust(m, &EM_PROPERTY_ClusterNum , "&EM_PROPERTY_Laplacian.", "&EM_PROPERTY_NeighFun.", 
+                          &EM_PROPERTY_Sigma , "&EM_PROPERTY_Neighborhood.", &EM_PROPERTY_K );
 		
 		create &em_user_vectors from m;
 			append from m;
