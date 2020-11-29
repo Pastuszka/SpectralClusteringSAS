@@ -1,0 +1,19 @@
+/* Michal Pastuszka & Wojciech Bogucki (2020). Spectral Clustering for SAS */
+/* spccMutKNNNeigh: Transform a complete neighborhood matrix to a mutual knn 
+   neighborhood matrix connecting only vertices that both belong to the 
+   k nearest neighbors of the other 
+   Input:
+   Required:
+   neigh         a complete neighborhood matrix
+   Optional:
+   k             number of nearest neghbors to leave connected. default = 10
+*/
+start spccMutKNNNeigh(neigh, k=10);
+	n = ncol(neigh);
+	do i=1 to n;
+		y = neigh[loc(rank(neigh[,i])=n-k+1),i];
+		neigh[loc(neigh[,i]<y),i] = 0;
+	end;
+	neigh = neigh >< neigh`;
+	return neigh;
+finish;

@@ -21,11 +21,11 @@ proc iml;
 		read all var _num_ into m;
 	close clust.jain_x;
 	
-	m = spectralClust(m, 2, 'normalizedRW', 'gaussian', 1, 'knn', 10);
+	m = spccSpectralize(m, 2, 0, 'normalizedRW', 'gaussian', 1, 'knn', 5);
 	
 	create clust.out from m;
 		append from m;
-	close m;
+	close clust.out;
 quit;
 
 /* use a normal clustering method on the resulting dataset */

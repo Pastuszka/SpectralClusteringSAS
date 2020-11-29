@@ -1,9 +1,0 @@
-start KNNNeigh(neigh, k);
-	n = ncol(neigh);
-	do i=1 to n;
-		y = neigh[loc(rank(neigh[,i])=n-k+1),i];
-		neigh[loc(neigh[,i]<y),i] = 0;
-	end;
-	neigh = neigh <> neigh`;
-	return neigh;
-finish;

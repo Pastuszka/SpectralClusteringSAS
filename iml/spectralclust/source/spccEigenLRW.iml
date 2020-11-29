@@ -1,0 +1,18 @@
+/* Michal Pastuszka & Wojciech Bogucki (2020). Spectral Clustering for SAS */
+/* spccEigenLRW: Compute eigenvectors of the normalized RW laplacian.
+   Input:
+   Required:
+   m         a neighborhood matrix
+   nvecs     number of eigenvectors to return. It is recommended to use one less
+             vector than clusters searched. Note that in case of a complete 
+             neighborhood matrix the first eigenvector will be constant and convey
+			 no information. In that situation use one more eigenvector.
+   Optional:
+*/
+start spccEigenLRW(m, nvecs);
+	degree = diag(m[,+]);
+	laplacian = degree - m;
+	call geneig(eval, evecs, laplacian, degree);
+	vectors = evecs[,(ncol(evecs)-nvecs+1):(ncol(evecs))]; 
+	return vectors;
+finish;
