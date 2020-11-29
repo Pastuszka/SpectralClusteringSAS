@@ -2,51 +2,62 @@
 /* spccSpectralize: Create eigenvectors of a graph laplacian matrix given a dataset
    for use in clustering
    Input: 
+   Required:
    m                 input matrix storing observations in rows or a similarity matrix. 
                      Must be numeric. When using a similarity matrix specify 
 					 neighborhood_fun as 'none'. Otherwise choose another option.
-   nvecs             number of eigenvectors returned by the algorithm. It is recommended 
-                     for this to be equal to the number of clusters expected to be found
-   laplacian         type of laplacian used in the algorithm. Possible options are:
-                     'normalizedRW' - recommended in most cases
+   nclus             target number of clusters. It coresponds to the number of eigenvectors
+                     used minus 1. When neighborhood_type is none one additional vector is
+					 added as in case of a complete nieghborhood matrix the first vector
+					 is constant. 
+   Optional:
+   nvecs             number of eigenvectors to compute. Overwrites nclus parameter.
+   laplacian         type of laplacian used in the algorithm. Default = 'normalizedRW'.
+                     Possible options are:
+                     'normalizedRW' - recommended in most cases - default
       		         'unnormalized'
-    		         'normalizedSym' - not yet implemented
-   neighborhood_fun  neighborhood function used to weight the similarity graph
-                     Currently possible options are:
+   neighborhood_fun  neighborhood function used to weight the similarity graph. 
+                     Default = 'gaussian'. Currently possible options are:
      				 'none' - don't compute a similarity matrix. Use when providing 
 					          a similarity matrix as input
 					 'gaussian' - a gaussian similarity function
   sigma              sigma parameter for 'gaussian' neighborhood_fun. 
-                     Affects the width of neighborhood.
-  neighborhood_type  type of neighborhood used Possible values:
+                     Affects the width of neighborhood. Default = 1
+  neighborhood_type  type of neighborhood used. Default = 'knn'. Possible values:
 			         'none' - all vertices are connected
 			         'knn' - vertices are connected only if one of them belongs to the 
 					         k nearest neighbors of the other
 			         'mutual_knn' - vertices are connected only if both of them belong 
 					                to the k nearest neighbors of the other
-  k                  k parameter used by 'knn' and 'mutual_knn' neighborhood_types
+  k                  k parameter used by 'knn' and 'mutual_knn' neighborhood_types. 
+                     Default = 10
 */
-start spccSpectralize(m, nvecs, laplacian='normalizedRW', neighborhood_fun='gaussian', sigma=1, neighborhood_type='knn', k=10);
-
+start spccSpectralize(m, nclus, nvecs=. laplacian='normalizedRW', 
+                      neighborhood_fun='gaussian', sigma=1, neighborhood_type='knn', k=10);
+    num_vectors = nclus - 1;
 	if neighborhood_fun = 'gaussian' then m = spccGaussNeigh(m, sigma);
 	else if neighborhood_fun = 'none' then;
 	else
 	do;
-		put 'unrecognized neighbourhood function. Using default gaussian';
+		print 'unrecognized neighbourhood function. Using default gaussian';
 		 m = spccGaussNeigh(m, sigma);
 	end;
 	
-	if neighborhood_type = 'none' then;
+	if neighborhood_type = 'none' then num_vectors = num_vectors + 1;
 	else if neighborhood_type = 'knn' then m = spccKNNNeigh(m, k);
 	else if neighborhood_type = 'mutual_knn' then m = spccMutKNNNeigh(m, k);
-	else put 'unrecognized neighborhood type. Using none';
-
-	if laplacian = 'normalizedRW' then m = spccEigenLRW(m, nvecs);
-	else if laplacian = 'unnormalized' then m = spccEigenL(m, nvecs);
+	else 
+	do;
+		print 'unrecognized neighborhood type. Using none';
+		num_vectors = num_vectors + 1;
+	end;
+    if nvecs then num_vectors = nvecs;
+	if laplacian = 'normalizedRW' then m = spccEigenLRW(m, num_vectors);
+	else if laplacian = 'unnormalized' then m = spccEigenL(m, num_vectors);
 	else
 	do;
-		put 'unrecognized laplacian type. Using default normalizedRW';
-		m = spccEigenLRW(m, nvecs);
+		print 'unrecognized laplacian type. Using default normalizedRW';
+		m = spccEigenLRW(m, num_vectors);
 	end;
 	return m;
 finish;

@@ -1,0 +1,50 @@
+/* Michal Pastuszka & Wojciech Bogucki (2020). Spectral Clustering for SAS */
+/* spccFastClus: perform spectral clustering with use of builtin FASTCLUS procedure.
+   Input: 
+   Required:
+   m                 input matrix storing observations in rows or a similarity matrix. 
+                     Must be numeric. When using a similarity matrix specify 
+					 neighborhood_fun as 'none'. Otherwise choose another option.
+   nclus             target number of clusters. It coresponds to the number of eigenvectors
+                     used minus 1. When neighborhood_type is none one additional vector is
+					 added as in case of a complete nieghborhood matrix the first vector
+					 is constant. 
+   Optional:
+   nvecs             number of eigenvectors to compute. Overwrites the number
+                     resulting from nclus parameter.
+   laplacian         type of laplacian used in the algorithm. Default = 'normalizedRW'.
+                     Possible options are:
+                     'normalizedRW' - recommended in most cases - default
+      		         'unnormalized'
+   neighborhood_fun  neighborhood function used to weight the similarity graph. 
+                     Default = 'gaussian'. Currently possible options are:
+     				 'none' - don't compute a similarity matrix. Use when providing 
+					          a similarity matrix as input
+					 'gaussian' - a gaussian similarity function
+  sigma              sigma parameter for 'gaussian' neighborhood_fun. 
+                     Affects the width of neighborhood. Default = 1
+  neighborhood_type  type of neighborhood used. Default = 'knn'. Possible values:
+			         'none' - all vertices are connected
+			         'knn' - vertices are connected only if one of them belongs to the 
+					         k nearest neighbors of the other
+			         'mutual_knn' - vertices are connected only if both of them belong 
+					                to the k nearest neighbors of the other
+  k                  k parameter used by 'knn' and 'mutual_knn' neighborhood_types. 
+                     Default = 10
+*/
+start spccFastClus(m, nclus, nvecs=., laplacian='normalizedRW', 
+                      neighborhood_fun='gaussian', sigma=1, neighborhood_type='knn', k=10);
+    m = spccSpectralize(m, nclus, nvecs, laplacian, neighborhood_fun, sigma, neighborhood_type, k);
+	create spcctmp from m;
+		append from m;
+	close spcctmp;
+	submit;
+		proc fastclus data=spcctmp, out=spcctmp;
+		run;
+	endsubmit;
+	use spcctmp;
+		read all var _num_ into clusters;
+	close spcctmp;
+	m = m || clusters;
+	return m;
+finish;

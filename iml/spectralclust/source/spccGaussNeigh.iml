@@ -1,4 +1,13 @@
-start spccGaussNeigh(m, sigma);
+/* Michal Pastuszka & Wojciech Bogucki (2020). Spectral Clustering for SAS */
+/* spccGaussNeigh: Compute the pairwise neighborhood values between observations
+   using gaussian neighborhood function
+   Input:
+   Required:
+   m         a matrix of observations stored in rows. Must be numeric
+   Optional:
+   sigma     a parameter dictating the width of the neighborhood    
+*/
+start spccGaussNeigh(m, sigma=1);
 	
 	neigh = exp(-(distance(m, "L2")##2)/(2*sigma**2));
 	neigh = neigh - diag(vecdiag(neigh));;
