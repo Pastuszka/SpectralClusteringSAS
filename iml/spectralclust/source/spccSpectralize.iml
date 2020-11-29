@@ -1,0 +1,52 @@
+/* Michal Pastuszka & Wojciech Bogucki (2020). Spectral Clustering for SAS */
+/* spccSpectralize: Create eigenvectors of a graph laplacian matrix given a dataset
+   for use in clustering
+   Input: 
+   m                 input matrix storing observations in rows or a similarity matrix. 
+                     Must be numeric. When using a similarity matrix specify 
+					 neighborhood_fun as 'none'. Otherwise choose another option.
+   nvecs             number of eigenvectors returned by the algorithm. It is recommended 
+                     for this to be equal to the number of clusters expected to be found
+   laplacian         type of laplacian used in the algorithm. Possible options are:
+                     'normalizedRW' - recommended in most cases
+      		         'unnormalized'
+    		         'normalizedSym' - not yet implemented
+   neighborhood_fun  neighborhood function used to weight the similarity graph
+                     Currently possible options are:
+     				 'none' - don't compute a similarity matrix. Use when providing 
+					          a similarity matrix as input
+					 'gaussian' - a gaussian similarity function
+  sigma              sigma parameter for 'gaussian' neighborhood_fun. 
+                     Affects the width of neighborhood.
+  neighborhood_type  type of neighborhood used Possible values:
+			         'none' - all vertices are connected
+			         'knn' - vertices are connected only if one of them belongs to the 
+					         k nearest neighbors of the other
+			         'mutual_knn' - vertices are connected only if both of them belong 
+					                to the k nearest neighbors of the other
+  k                  k parameter used by 'knn' and 'mutual_knn' neighborhood_types
+*/
+start spccSpectralize(m, nvecs, laplacian='normalizedRW', neighborhood_fun='gaussian', sigma=1, neighborhood_type='knn', k=10);
+
+	if neighborhood_fun = 'gaussian' then m = spccGaussNeigh(m, sigma);
+	else if neighborhood_fun = 'none' then;
+	else
+	do;
+		put 'unrecognized neighbourhood function. Using default gaussian';
+		 m = spccGaussNeigh(m, sigma);
+	end;
+	
+	if neighborhood_type = 'none' then;
+	else if neighborhood_type = 'knn' then m = spccKNNNeigh(m, k);
+	else if neighborhood_type = 'mutual_knn' then m = spccMutKNNNeigh(m, k);
+	else put 'unrecognized neighborhood type. Using none';
+
+	if laplacian = 'normalizedRW' then m = spccEigenLRW(m, nvecs);
+	else if laplacian = 'unnormalized' then m = spccEigenL(m, nvecs);
+	else
+	do;
+		put 'unrecognized laplacian type. Using default normalizedRW';
+		m = spccEigenLRW(m, nvecs);
+	end;
+	return m;
+finish;

@@ -1,4 +1,4 @@
-start gaussNeigh(m, sigma);
+start spccGaussNeigh(m, sigma);
 	
 	neigh = exp(-(distance(m, "L2")##2)/(2*sigma**2));
 	neigh = neigh - diag(vecdiag(neigh));;

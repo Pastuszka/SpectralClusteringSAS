@@ -1,4 +1,4 @@
-start eigenLRW(m, k);
+start spccEigenLRW(m, k);
 	degree = diag(m[,+]);
 	laplacian = degree - m;
 	call geneig(eval, evecs, laplacian, degree);

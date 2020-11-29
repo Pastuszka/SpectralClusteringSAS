@@ -1,4 +1,4 @@
-start eigenL(m, k);
+start spccEigenL(m, k);
 	degree = diag(m[,+]);
 	laplacian = degree - m;
 	call eigen(val, rvec, laplacian);
