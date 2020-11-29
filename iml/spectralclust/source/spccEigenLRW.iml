@@ -3,7 +3,7 @@
    Input:
    Required:
    m         a neighborhood matrix
-   nvecs      number of eigenvectors to return. It is recommended to use one less
+   nvecs     number of eigenvectors to return. It is recommended to use one less
              vector than clusters searched. Note that in case of a complete 
              neighborhood matrix the first eigenvector will be constant and convey
 			 no information. In that situation use one more eigenvector.

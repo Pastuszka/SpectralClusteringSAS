@@ -6,8 +6,9 @@
                      Must be numeric. When using a similarity matrix specify 
 					 neighborhood_fun as 'none'. Otherwise choose another option.
    nclus             target number of clusters. It coresponds to the number of eigenvectors
-                     used minus 1. When neighborhood graph is complete one additional vector is
-					 added as in that case the first eigenvector is constant. 
+                     used minus 1. When neighborhood_type is none one additional vector is
+					 added as in case of a complete nieghborhood matrix the first vector
+					 is constant. 
    Optional:
    nvecs             number of eigenvectors to compute. Overwrites the number
                      resulting from nclus parameter.
@@ -33,17 +34,19 @@
 */
 start spccFastClus(m, nclus, nvecs=0, laplacian='normalizedRW', 
                       neighborhood_fun='gaussian', sigma=1, neighborhood_type='knn', k=10);
-    m = spccSpectralize(m, nclus, nvecs, laplacian, neighborhood_fun, sigma, neighborhood_type, k);
-	create spcctmp from m;
-		append from m;
+    spec = spccSpectralize(m, nclus, nvecs, laplacian, neighborhood_fun, sigma, neighborhood_type, k);
+	create spcctmp from spec;
+		append from spec;
 	close spcctmp;
-	submit;
-		proc fastclus data=spcctmp, out=spcctmp;
+	
+	submit nclus;
+		proc fastclus data=spcctmp out=spcctmp maxclusters=&nclus;
 		run;
 	endsubmit;
+	
 	use spcctmp;
 		read all var _num_ into clusters;
 	close spcctmp;
-	m = m || clusters;
-	return m;
+	spec = m || spec || clusters;
+	return spec;
 finish;
