@@ -3,16 +3,16 @@
    Input:
    Required:
    m         a neighborhood matrix
-   nvec      number of eigenvectors to return. It is recommended to use one less
+   nvecs     number of eigenvectors to return. It is recommended to use one less
              vector than clusters searched. Note that in case of a complete 
              neighborhood matrix the first eigenvector will be constant and convey
 			 no information. In that situation use one more eigenvector.
    Optional:
 */
-start spccEigenL(m, k);
+start spccEigenL(m, nvecs);
 	degree = diag(m[,+]);
 	laplacian = degree - m;
 	call eigen(val, rvec, laplacian);
-	vectors = rvec[,(ncol(rvec)-nvec):(ncol(rvec))]; 
+	vectors = rvec[,(ncol(rvec)-nvecs+1):(ncol(rvec))]; 
 	return vectors;
 finish;

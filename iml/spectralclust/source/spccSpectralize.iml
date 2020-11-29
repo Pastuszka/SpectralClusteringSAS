@@ -32,7 +32,7 @@
   k                  k parameter used by 'knn' and 'mutual_knn' neighborhood_types. 
                      Default = 10
 */
-start spccSpectralize(m, nclus, nvecs=. laplacian='normalizedRW', 
+start spccSpectralize(m, nclus, nvecs=0, laplacian='normalizedRW', 
                       neighborhood_fun='gaussian', sigma=1, neighborhood_type='knn', k=10);
     num_vectors = nclus - 1;
 	if neighborhood_fun = 'gaussian' then m = spccGaussNeigh(m, sigma);
@@ -51,7 +51,9 @@ start spccSpectralize(m, nclus, nvecs=. laplacian='normalizedRW',
 		print 'unrecognized neighborhood type. Using none';
 		num_vectors = num_vectors + 1;
 	end;
+	
     if nvecs then num_vectors = nvecs;
+
 	if laplacian = 'normalizedRW' then m = spccEigenLRW(m, num_vectors);
 	else if laplacian = 'unnormalized' then m = spccEigenL(m, num_vectors);
 	else

@@ -56,7 +56,7 @@
 	initial="None" >
 	<Control>
 		<ChoiceList>
-		<Choice rawValue="None"/>
+		<Choice rawValue="none"/>
 		<Choice rawValue="knn"/>
 		<Choice rawValue="mutual_knn"/>
 		</ChoiceList>
@@ -129,6 +129,17 @@
 	</Control>
 </Property>
 
+<Property
+	type="int"
+	name="nvecs"
+	displayName="Number of eigenvectors"
+	description="Indicates the number of laplacian eigenvectors used in algortihm. If set to 0 selects the number based on Number of Clusters parameter"
+	initial="0" >
+	<Control>
+		<Range min="0" excludeMin="N" />
+	</Control>
+</Property>
+
 
 </PropertyDescriptors>
 <Views>
@@ -140,6 +151,7 @@
 		<PropertyRef nameref="Sigma"/>
 		<PropertyRef nameref="Neighborhood"/>
 		<PropertyRef nameref="K"/>
+		<PropertyRef nameref="nvecs"/>
 	</View>
 	<View name="Score">
 		<PropertyRef nameref="ClustFun"/>
