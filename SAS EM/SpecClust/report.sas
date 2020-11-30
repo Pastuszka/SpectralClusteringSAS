@@ -1,6 +1,9 @@
 %macro report;
 	%em_getname(key=vectors, TYPE=DATA);
 	%em_getname(key=indvectors, TYPE=DATA);
+	%EM_GETNAME(key=OUTSTAT, type=DATA);
+	%EM_GETNAME(key=CLUSTERSUM, type=DATA);
+
 
 	proc sort data=&em_user_vectors out=&em_user_indvectors;
 		by COL1;
@@ -37,23 +40,25 @@
 		views=1,
 		autodisplay=Y,
 		description=Eigenvector Table);
+		
+	data &em_user_outstat;                                                                                                                                                                                                                                      
+        set &em_user_outstat;                                                                                                                                                                                                                                   
+        label _Cluster_id_ = "Cluster ID";                                                                                                                                                                                                                   
+        drop _iteration_;                                                                                                                                                                                                                                       
+    run;                                                                                                                                                                                                                                                        
+                                                                                                                                                                                                                                                                
+	%EM_REPORT(key=OUTSTAT, viewtype=DATA, block=MODEL, autodisplay=Y, description=fitstatsplotlabel);
+	%if &em_property_ClusterNum <= 200 %then %do;                                                                                                                                                                                                                  
+		data &em_user_clustersum;                                                                                                                                                                                                                                   
+			set &em_user_clustersum;                                                                                                                                                                                                                                
+			label cluster = "Cluster ID"                                                                                                                                                                                                                         
+				frequency  = "Frequency"                                                                                                                                                                                                                      
+				SSE = "SSE";                                                                                                                                                                                                                                  
+		run;                                                                                                                                                                                                                                                        
+		%EM_REPORT(key=CLUSTERSUM, viewtype=PIE, x=Cluster, freq=Frequency, block=PLOT, autodisplay=Y, description=segmentplotlabel )                                                                                                                               
+	%end;
 	
-	%em_report(key=vectors,
-		viewtype=Histogram,
-		block=eigenvectors,
-		x=COL1,
-		views=2,
-		autodisplay=N,
-		choicetext=COL1,
-		description=Eigenvector histogram);
-	
-/*	%em_report(*/
-/*		views=2,*/
-/*		x=COL2 ,*/
-/*		choicetext=COL2);*/
-/*	*/
-/*	%em_report(*/
-/*		views=2,*/
-/*		x=COL3 ,*/
-/*		choicetext=COL3);*/
+  
+
+
 %mend report;

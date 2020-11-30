@@ -10,6 +10,13 @@
 
 %macro train;
 	%em_getname(key=vectors, TYPE=DATA);
+    %EM_GETNAME(key=OUTSTAT, type=DATA);                                                                                                                                                                                                                        
+    %EM_GETNAME(key=MODELINFO, TYPE=DATA);                                                                                                                                                                                                                      
+    %EM_GETNAME(key=CLUSTERSUM, type=DATA);                                                                                                                                                                                                                     
+    %EM_GETNAME(key=ITERSTAT, type=DATA);                                                                                                                                                                                                                       
+    %EM_GETNAME(key=OVERALLVARSTAT, TYPE=DATA);                                                                                                                                                                                                                 
+    %EM_GETNAME(key=CLUSTERBASEDVARSTAT, type=DATA)
+
 	
 	%if (^%sysfunc(exist(&EM_IMPORT_DATA)) and
 		^%sysfunc(exist(&EM_IMPORT_DATA, VIEW)))
@@ -44,7 +51,7 @@
 		varnames = { %EM_INTERVAL_INPUT %EM_ORDINAL_INPUT %EM_BINARY_INPUT };
 		print 'Used variables:';
 		print varnames;
-
+		
 		use &em_import_data;
 		read all var varnames into m;
 		close &em_import_data;
@@ -56,6 +63,37 @@
 		create &em_user_vectors from m;
 			append from m;
 		close &em_user_vectors;
+		CALL symput("nvar", putn(ncol(m), "BEST6."));
 	quit;
+	
+	
+	ods listing exclude  Standardization DescStats WithinClusStats;                                                                                                                                                                                                 
+    filename flowtemp "&em_file_emflowscorecode";                                                                                                                                                                                                               
+    ods output PerformanceInfo = _tmp_outperformanceinfo ModelInfo = &em_user_modelinfo NObs = _tmp_outnobs                                                                                                                                                         
+            ClusterSum = &em_user_clustersum IterStats = &em_user_ITERSTAT DescStats = &em_user_OVERALLVARSTAT                                                                                                                                                              
+            WithinClusStats = &em_user_CLUSTERBASEDVARSTAT Timing = _tmp_outtiming                                                                                                                                                                                                                                              
+    ;                                                                                                                                                                                                                                                           
+    proc hpclus data= &em_user_vectors maxclusters = &EM_PROPERTY_ClusterNum maxiter = &EM_PROPERTY_MaxIter                                                                                                                              
+        outstat = &EM_USER_OUTSTAT  distance = &EM_PROPERTY_Distance Seed=&EM_PROPERTY_Seed                                                                                                                                                                                                                                                  
+    ;                                                                                                                                                                                                                                                           
+       input %DO i=1 %to &nvar; COL&i %END;;                                                                                                                                                                                                                                                                                                                                                                                                                                                             
+           /* score code */                                                                                                                                                                                                                                     
+        code file=flowtemp  group = &EMLOOPID ;                                                                                                                                                                                                                 
+                                                                                                                                                                                                                                                                
+        /* performance statement */                                                                                                                                                                                                                             
+        &hpdm_performance.;                                                                                                                                                                                                                                     
+    run;  
+	
+    filename pubtemp "&em_file_empublishscorecode";                                                                                                                                                                                                             
+    %em_copyfile(infref=flowtemp, outfref=pubtemp,append=N);                                                                                                                                                                                                    
+    filename flowtemp;                                                                                                                                                                                                                                          
+    filename pubtemp;                                                                                                                                                                                                                                           
+                                                                                                                                                                                                                                                                
+    proc datasets lib=work nolist;                                                                                                                                                                                                                              
+        delete  _tmp:;                                                                                                                                                                                                                                          
+    run; 
+         
+
+	
 	%doenda:
 %mend train;
