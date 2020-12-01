@@ -65,7 +65,7 @@ data &em_user_modelinfo;
     label parameter = "Parameter"                                                                                                                                                                                                                         
           setting =  "Setting";                                                                                                                                                                                                                           
 run;                                                                                                                                                                                                                                                            
-%EM_REPORT(key=MODELINFO, viewtype=DATA, block=MODEL, autodisplay=Y, description=modelinfolabel); 
+%EM_REPORT(key=MODELINFO, viewtype=DATA, block=MODEL, autodisplay=N, description=modelinfolabel); 
   
 
 
