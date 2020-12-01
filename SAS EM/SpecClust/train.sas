@@ -1,4 +1,4 @@
-%macro getNObs(inds, nobs);
+﻿%macro getNObs(inds, nobs);
 /*macro for setting macrovariable numobs with number of observations in dataset inds*/                                                                                                          
     %global &nobs;                                                                                                                      
     data _null_;                                                                                                                        
@@ -77,12 +77,18 @@
         outstat = &EM_USER_OUTSTAT  distance = &EM_PROPERTY_Distance Seed=&EM_PROPERTY_Seed                                                                                                                                                                                                                                                  
     ;                                                                                                                                                                                                                                                           
        input %DO i=1 %to &nvar; COL&i %END;;                                                                                                                                                                                                                                                                                                                                                                                                                                                             
-           /* score code */                                                                                                                                                                                                                                     
-        code file=flowtemp  group = &EMLOOPID ;                                                                                                                                                                                                                 
+           /* score code */
+		score out=_tmp_out_score;
+        code file=flowtemp;                                                                                                                                                                                                                 
                                                                                                                                                                                                                                                                 
         /* performance statement */                                                                                                                                                                                                                             
         &hpdm_performance.;                                                                                                                                                                                                                                     
     run;  
+
+	data &em_export_train;
+		set &em_import_data;
+		set _tmp_out_score(drop=_DISTANCE_);
+	run;
 	
     filename pubtemp "&em_file_empublishscorecode";                                                                                                                                                                                                             
     %em_copyfile(infref=flowtemp, outfref=pubtemp,append=N);                                                                                                                                                                                                    
