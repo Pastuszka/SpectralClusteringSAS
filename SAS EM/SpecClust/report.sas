@@ -7,8 +7,8 @@
     %EM_REGISTER(key=MODELINFO, TYPE=DATA);  
 
 /*	Eigenvectors*/
-	proc sort data=&em_user_vectors out=&em_user_indvectors;
-		by COL1;
+	proc sort data=&em_user_vectors out=&em_user_indvectors(drop=_CLUSTER_ID_ _DISTANCE_);
+		by _CLUSTER_ID_ _DISTANCE_;
 	run;
 
 	data &em_user_indvectors;

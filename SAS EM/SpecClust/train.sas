@@ -89,6 +89,11 @@
 		set &em_import_data;
 		set _tmp_out_score(drop=_DISTANCE_);
 	run;
+
+	data &em_user_vectors;
+		set &em_user_vectors;
+		set _tmp_out_score;
+	run;
 	
     filename pubtemp "&em_file_empublishscorecode";                                                                                                                                                                                                             
     %em_copyfile(infref=flowtemp, outfref=pubtemp,append=N);                                                                                                                                                                                                    
