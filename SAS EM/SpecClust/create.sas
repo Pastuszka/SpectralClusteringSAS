@@ -16,7 +16,7 @@
     %EM_REGISTER(key=graph_table, type=DATA);                                                                                                                                                                                                                   
     %EM_REGISTER(key=MODELINFO, TYPE=DATA);                                                                                                                                                                                                                     
     %EM_REGISTER(key=CLUSTERSUM, type=DATA);                                                                                                                                                                                                                    
-    %EM_REGISTER(key=OUTITERSTAT, type=DATA);                                                                                                                                                                                                                   
+    %EM_REGISTER(key=ITERSTAT, type=DATA);                                                                                                                                                                                                                   
     %EM_REGISTER(key=OVERALLVARSTAT, TYPE=DATA);                                                                                                                                                                                                                
     %EM_REGISTER(key=CLUSTERBASEDVARSTAT, type=DATA);
 

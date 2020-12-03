@@ -3,9 +3,11 @@
 	%em_getname(key=indvectors, TYPE=DATA);
 	%EM_GETNAME(key=OUTSTAT, type=DATA);
 	%EM_GETNAME(key=CLUSTERSUM, type=DATA);
-	%EM_REGISTER(key=graph_table, type=DATA);                                                                                                                                                                                                                   
-    %EM_REGISTER(key=MODELINFO, TYPE=DATA);  
-
+	%EM_GETNAME(key=graph_table, type=DATA);                                                                                                                                                                                                                   
+    %EM_GETNAME(key=MODELINFO, TYPE=DATA);  
+    %EM_GETNAME(key=ITERSTAT, type=DATA);                                                                                                                                                                                                                   
+    %EM_GETNAME(key=OVERALLVARSTAT, TYPE=DATA);
+	%EM_GETNAME(key=CLUSTERBASEDVARSTAT, type=DATA);
 /*	Eigenvectors*/
 	proc sort data=&em_user_vectors out=&em_user_indvectors(drop=_CLUSTER_ID_ _DISTANCE_);
 		by _CLUSTER_ID_ _DISTANCE_;
@@ -65,8 +67,11 @@ data &em_user_modelinfo;
     label parameter = "Parameter"                                                                                                                                                                                                                         
           setting =  "Setting";                                                                                                                                                                                                                           
 run;                                                                                                                                                                                                                                                            
-%EM_REPORT(key=MODELINFO, viewtype=DATA, block=MODEL, autodisplay=N, description=modelinfolabel); 
-  
+%EM_REPORT(key=MODELINFO, viewtype=DATA, block=MODEL, autodisplay=N, description=Model Information); 
 
+%EM_REPORT(key=CLUSTERSUM, viewtype=DATA, block=MODEL, autodisplay=Y, description=Cluster Summary);
+%EM_REPORT(key=ITERSTAT, viewtype=DATA, block=MODEL, autodisplay=N, description=Iteration Statistics);
+%EM_REPORT(key=OVERALLVARSTAT, viewtype=DATA, block=MODEL, autodisplay=N, description=Descriptive Statistics);
+%EM_REPORT(key=CLUSTERBASEDVARSTAT, viewtype=DATA, block=MODEL, autodisplay=N, description=Within Cluster Statistics);
 
 %mend report;
