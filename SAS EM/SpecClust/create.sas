@@ -1,6 +1,6 @@
 ﻿%macro create;
 	%EM_PROPERTY(NAME=ClusterNum,	VALUE=2);
-	%EM_PROPERTY(NAME=Neighborhood,	VALUE=none);
+	%EM_PROPERTY(NAME=Neighborhood,	VALUE=complete);
 	%EM_PROPERTY(NAME=Laplacian,	VALUE=normalizedRW);
 	%EM_PROPERTY(NAME=NeighFun,		VALUE=gaussian);
 	%EM_PROPERTY(NAME=Sigma,		VALUE=1.0);
