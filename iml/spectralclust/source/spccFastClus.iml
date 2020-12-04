@@ -6,11 +6,8 @@
                      Must be numeric. When using a similarity matrix specify 
 					 neighborhood_fun as 'none'. Otherwise choose another option.
    nclus             target number of clusters. It coresponds to the number of eigenvectors
-                     used minus 1. When neighborhood_type is none one additional vector is
-					 added as in case of a complete nieghborhood matrix the first vector
-					 is constant. 
+                     used.
    Optional:
-   nvecs             number of eigenvectors to compute. Overwrites the number
                      resulting from nclus parameter.
    laplacian         type of laplacian used in the algorithm. Default = 'normalizedRW'.
                      Possible options are:
@@ -18,7 +15,7 @@
       		         'unnormalized'
    neighborhood_fun  neighborhood function used to weight the similarity graph. 
                      Default = 'gaussian'. Currently possible options are:
-     				 'none' - don't compute a similarity matrix. Use when providing 
+     				 'complete' - don't compute a similarity matrix. Use when providing 
 					          a similarity matrix as input
 					 'gaussian' - a gaussian similarity function
   sigma              sigma parameter for 'gaussian' neighborhood_fun. 
@@ -32,9 +29,9 @@
   k                  k parameter used by 'knn' and 'mutual_knn' neighborhood_types. 
                      Default = 10
 */
-start spccFastClus(m, nclus, nvecs=0, laplacian='normalizedRW', 
+start spccFastClus(m, nclus, laplacian='normalizedRW', 
                       neighborhood_fun='gaussian', sigma=1, neighborhood_type='knn', k=10);
-    spec = spccSpectralize(m, nclus, nvecs, laplacian, neighborhood_fun, sigma, neighborhood_type, k);
+    spec = spccSpectralize(m, nclus, laplacian, neighborhood_fun, sigma, neighborhood_type, k);
 	create spcctmp from spec;
 		append from spec;
 	close spcctmp;

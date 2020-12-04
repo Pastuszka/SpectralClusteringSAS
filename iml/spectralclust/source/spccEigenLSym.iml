@@ -1,5 +1,5 @@
 /* Michal Pastuszka & Wojciech Bogucki (2020). Spectral Clustering for SAS */
-/* spccEigenLRW: Compute eigenvectors of the unnormalized laplacian.
+/* spccEigenLSym: Compute eigenvectors of the normalized LSym laplacian.
    Input:
    Required:
    m         a neighborhood matrix
@@ -9,10 +9,11 @@
 			 no information. In that situation use one more eigenvector.
    Optional:
 */
-start spccEigenL(m, nvecs);
-	degree = diag(m[,+]);
-	laplacian = degree - m;
+start spccEigenLSym(m, nvecs);
+	degree = diag(1/sqrt(m[,+]));
+	laplacian = i(nrow(m)) - degree * m * degree;
 	call eigen(eval, evecs, laplacian);
-	vectors = evecs[,(ncol(evecs)-nvecs+1):(ncol(evecs))]; 
+	vectors = evecs[,(ncol(evecs)-nvecs+1):(ncol(evecs))];
+	vectors = vectors / sqrt((vectors##2)[,+]);
 	return vectors;
 finish;
