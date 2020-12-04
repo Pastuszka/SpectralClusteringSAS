@@ -56,7 +56,7 @@
 		read all var varnames into m;
 		close &em_import_data;
 
-		m = spccSpectralize(m, &EM_PROPERTY_ClusterNum , &EM_PROPERTY_nvecs , "&EM_PROPERTY_Laplacian.",
+		m = spccSpectralize(m, &EM_PROPERTY_ClusterNum , "&EM_PROPERTY_Laplacian.",
                             "&EM_PROPERTY_NeighFun.", &EM_PROPERTY_Sigma , 
                             "&EM_PROPERTY_Neighborhood.", &EM_PROPERTY_K );
 
