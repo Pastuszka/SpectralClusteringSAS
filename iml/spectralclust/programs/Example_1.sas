@@ -21,7 +21,7 @@ proc iml;
 		read all var _num_ into m;
 	close clust.jain_x;
 	
-	m = spccSpectralize(m, 2, 0, 'normalizedRW', 'gaussian', 1, 'knn', 5);
+	m = spccSpectralize(m, 2, 'normalizedRW', 'gaussian', 1, 'knn', 5);
 	
 	create clust.out from m;
 		append from m;
