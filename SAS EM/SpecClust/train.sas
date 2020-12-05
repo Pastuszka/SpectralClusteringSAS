@@ -54,7 +54,25 @@
 		%put &em_codebar;
 		%goto doenda;
 	%end;
+	/*	-----Check input dataset for missing values----*/
+	proc means data=&em_import_data nmiss noprint;
+		var %EM_INTERVAL_INPUT %EM_ORDINAL_INPUT %EM_BINARY_INPUT ;
+		output out=_tmp_miss nmiss=nmiss;
+	run;
+
+	data _null_;
+		set _tmp_miss;
+		call symputx("nmiss", nmiss);
+	run;
+	%if %SYSEVALF(&nmiss > 0) %then %do;
+		%let EMEXCEPTIONSTRING = ERROR;
+		%put &em_codebar;
+		%put Error: Dataset contains missing values!;
+		%put &em_codebar;
+		%goto doenda;
+	%end;
 	
+
 	proc iml;
     
 		package load spectralclust;
