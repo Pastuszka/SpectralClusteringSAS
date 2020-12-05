@@ -1,5 +1,5 @@
 ﻿%macro getNObs(inds, nobs);
-/*macro for setting macrovariable numobs with number of observations in dataset inds*/                                                                                                          
+/*macro for setting macrovariable nobs with number of observations in dataset inds*/                                                                                                          
     %global &nobs;                                                                                                                      
     data _null_;                                                                                                                        
         set &inds end=eof;                                                                                                              
@@ -9,7 +9,8 @@
 %mend  getNObs;
 
 %macro train;
-	%em_getname(key=vectors, TYPE=DATA);
+	/*Get datasets*/
+	%EM_GETNAME(key=vectors, TYPE=DATA);
     %EM_GETNAME(key=OUTSTAT, type=DATA);                                                                                                                                                                                                                        
     %EM_GETNAME(key=MODELINFO, TYPE=DATA);                                                                                                                                                                                                                      
     %EM_GETNAME(key=CLUSTERSUM, type=DATA);                                                                                                                                                                                                                     
@@ -17,14 +18,14 @@
     %EM_GETNAME(key=OVERALLVARSTAT, TYPE=DATA);                                                                                                                                                                                                                 
     %EM_GETNAME(key=CLUSTERBASEDVARSTAT, type=DATA)
 
-	
+	/*	-----Check for the existence of import data----- */
 	%if (^%sysfunc(exist(&EM_IMPORT_DATA)) and
 		^%sysfunc(exist(&EM_IMPORT_DATA, VIEW)))
 		or "&EM_IMPORT_DATA" eq "" %then %do;
 		%let EMEXCEPTIONSTRING = exception.server.IMPORT.NOTRAIN,1;
 		%goto doenda;
 	%end;
-
+	/*	-----Check for the existence of interval, ordinal or binary input variable---- */
 	%if (%EM_INTERVAL_INPUT %EM_ORDINAL_INPUT  %EM_BINARY_INPUT eq ) %then %do;
 		%let EMEXCEPTIONSTRING = ERROR;
 		%put &em_codebar;
@@ -32,7 +33,7 @@
 		%put &em_codebar;
 		%goto doenda;
 	%end;
-
+	/*	-----Check if number of clusters is smaller than number of observations----*/
 	%getNObs(&EM_IMPORT_DATA, indsNObs);
 	%put Number of observations in dataset: &indsNObs;
 
@@ -40,6 +41,15 @@
 		%let EMEXCEPTIONSTRING = ERROR;
 		%put &em_codebar;
 		%put Error: Number of clusters(&EM_PROPERTY_ClusterNum) should be smaller than;
+		%put number of observations(&indsNObs);
+		%put &em_codebar;
+		%goto doenda;
+	%end;
+	/*	-----Check if k is smaller than number of observations----*/
+	%if %SYSEVALF(&EM_PROPERTY_K >= &indsNObs) %then %do;
+		%let EMEXCEPTIONSTRING = ERROR;
+		%put &em_codebar;
+		%put Error: Parameter K(&EM_PROPERTY_K) should be smaller than;
 		%put number of observations(&indsNObs);
 		%put &em_codebar;
 		%goto doenda;
