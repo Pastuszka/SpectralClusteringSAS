@@ -7,7 +7,7 @@
     run;                                                                                                                                
     quit;                                                                                                                               
 %mend  getNObs;
-
+options minoperator;
 %macro train;
 	/*Get datasets*/
 	%EM_GETNAME(key=vectors, TYPE=DATA);
@@ -46,7 +46,7 @@
 		%goto doenda;
 	%end;
 	/*	-----Check if k is smaller than number of observations----*/
-	%if %SYSEVALF(&EM_PROPERTY_K >= &indsNObs) %then %do;
+	%if %SYSEVALF(&EM_PROPERTY_K >= &indsNObs) and &EM_PROPERTY_Neighborhood in (knn mutual_knn) %then %do;
 		%let EMEXCEPTIONSTRING = ERROR;
 		%put &em_codebar;
 		%put Error: Parameter K(&EM_PROPERTY_K) should be smaller than;
@@ -62,7 +62,7 @@
 
 	data _null_;
 		set _tmp_miss;
-		call symputx("nmiss", nmiss);
+		call symputx("nmiss", nmiss, "L");
 	run;
 	%if %SYSEVALF(&nmiss > 0) %then %do;
 		%let EMEXCEPTIONSTRING = ERROR;
