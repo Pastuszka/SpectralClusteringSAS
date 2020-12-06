@@ -6,16 +6,16 @@
 	%let return_code = -1;
 	%&test_macro;
 	%if &return_code = 0 %then %do;
-		%put Success;
+		%put Success!;
 		%let tests_successful = %eval(&tests_successful. + 1);
 	%end;
 	%else %if &return_code = -1 %then %do;
 		%put Test failed without a return code;
-		%let failed_tests = %sysfunc(catx(&failed_tests, &test_macro, [, &return_code, ] %str( )));
+		%let failed_tests = &failed_tests &test_macro [&return_code.];
 	%end;
 	%else %do;
 		%put Test failed with return code [&return_code.];
-		%let failed_tests = %sysfunc(catx(&failed_tests, &test_macro, [, &return_code, ] %str( )));
+		%let failed_tests = &failed_tests &test_macro [&return_code.];
 	%end;	
 %mend test;
 
@@ -70,6 +70,7 @@
 		%end;
 		%else %do;
 			%put Failed &tests_failed tests;
+			%put &failed_tests;
 		%end;
 	%end;
 	%put Time elapsed: &dur;
