@@ -91,6 +91,7 @@
 		<ChoiceList>
 		<Choice rawValue="none"/>
 		<Choice rawValue="gaussian" displayValue="Gaussian Function"/>
+		<Choice rawValue="neg_euclid" displayValue="Shifted negative euclidean"/>
 		</ChoiceList>
 	</Control>
 </Property>
