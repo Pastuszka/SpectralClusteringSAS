@@ -18,6 +18,7 @@
      				 'complete' - don't compute a similarity matrix. Use when providing 
 					          a similarity matrix as input
 					 'gaussian' - a gaussian similarity function
+					 'neg_euclid' - negative euclidean distances
   sigma              sigma parameter for 'gaussian' neighborhood_fun. 
                      Affects the width of neighborhood. Default = 1
   neighborhood_type  type of neighborhood used. Default = 'knn'. Possible values:

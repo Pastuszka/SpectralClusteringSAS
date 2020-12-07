@@ -2,7 +2,7 @@
 Name:        spectralclust
 Description: Spectral clustering for SAS
 Author:      Michal Pastuszka <michal.pastuszka98@gmail.com> Wojciech Bogucki <>
-Version:     0.4
+Version:     0.5
 RequiresIML: 15.1
 SourceFiles: spccEigenL.iml
              spccEigenLRW.iml
@@ -12,3 +12,4 @@ SourceFiles: spccEigenL.iml
              spccmutKNNNeigh.iml
              spccFastClus.iml
              spccEigenLSym.iml
+	     spccNegEuclidNeigh.iml

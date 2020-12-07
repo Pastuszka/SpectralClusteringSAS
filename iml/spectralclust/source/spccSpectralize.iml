@@ -19,6 +19,7 @@
      				 'none' - don't compute a similarity matrix. Use when providing 
 					          a similarity matrix as input
 					 'gaussian' - a gaussian similarity function
+					 'neg_euclid' - negative euclidean distances
   sigma              sigma parameter for 'gaussian' neighborhood_fun. 
                      Affects the width of neighborhood. Default = 1
   neighborhood_type  type of neighborhood used. Default = 'knn'. Possible values:
@@ -34,6 +35,7 @@ start spccSpectralize(m, nclus, laplacian='normalizedRW',
                       neighborhood_fun='gaussian', sigma=1, neighborhood_type='knn', k=10);
 	matrix = m;
 	if neighborhood_fun = 'gaussian' then matrix = spccGaussNeigh(matrix, sigma);
+	else if neighborhood_fun = 'neg_euclid' then matrix = spccNegEuclidNeigh(matrix);
 	else if neighborhood_fun = 'none' then;
 	else
 	do;
