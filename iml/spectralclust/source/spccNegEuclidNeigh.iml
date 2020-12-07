@@ -1,0 +1,18 @@
+/* Michal Pastuszka & Wojciech Bogucki (2020). Spectral Clustering for SAS */
+/* spccNegEuclidNeigh: Compute the pairwise neighborhood values between observations
+   using negative euclidean pairwise distances
+   Input:
+   Required:
+   m         a matrix of observations stored in rows. Must be numeric
+   Optional:
+  
+*/
+start spccNegEuclidNeigh(m);
+	
+	neigh = -(distance(m, "L2"));
+	neigh = neigh - min(neigh);
+	neigh = neigh - diag(vecdiag(neigh));;
+	
+	return neigh;
+	
+finish;
