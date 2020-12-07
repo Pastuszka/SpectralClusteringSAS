@@ -5,7 +5,7 @@
 		correct = {0 3 0 0, 3 0 3 0, 0 3 0 3, 0 0 3 0};
 		out = spccKNNNeigh(m, 1);
 		result = all(correct = out);
-		if result then call symput('return_code', '1');
+		if result then call symput('return_code', '0');
 		else call symput('return_code', '1');
 	quit;
 %mend;
