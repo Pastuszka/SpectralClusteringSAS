@@ -47,5 +47,7 @@
 	run;
 %mend CreateSources;
 
-%CreateSources(path\to\SpectralClusteringSAS\SAS EM\SpecClust, specc, specc)
-LIBNAME specc CLEAR;
+%macro createCatalog(userPath);
+	%CreateSources(&userPath\SpectralClusteringSAS\SAS EM\SpecClust, specc, specc)
+	LIBNAME specc CLEAR;
+%mend createCatalog;
