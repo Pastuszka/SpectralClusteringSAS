@@ -1,1 +1,61 @@
-Help
+Spectralclust Package
+
+Description: Spectral clustering for SAS
+
+Spectral clustering is a type of clustering algorithm that takes use of spectral graph theory.
+Names used are based on "A Tutorial on Spectral Clustering" (von Luxburg, 2007).
+
+Recommended use is to pass the data to the spccSpectralize function, save it to a dataset, and execute a clustering
+algorithm, such as the fastclus procedure, on the created dataset.
+
+Module Syntax: 
+
+spccSpectralize(m, nclus, laplacian='normalizedRW', 
+                neighborhood_fun='gaussian', sigma=1, neighborhood_type='knn', k=10);
+   creates eigenvectors of a graph laplacian matrix given a dataset m
+   for use in clustering
+   returns a matrix of nclus eigenvectors corresponding to the smallest eigenvalues of the laplacian, stored columnwise
+   each row of the matrix represents a corresponding observation from the original dataset
+
+spccEigenL(m, nvecs);
+   computes eigenvectors of the unnormalized laplacian of the neighborhood matrix m.
+   returns nvecs number of eigenvectors corresponding to the smallest eigenvalues stored columnwise as a matrix
+
+spccEigenLRW(m, nvecs);
+   computes eigenvectors of the normalized RW laplacian of the neighborhood matrix m.
+   returns nvecs number of eigenvectors corresponding to the smallest eigenvalues stored columnwise as a matrix
+
+spccEigenLSym(m, nvecs);
+   computes eigenvectors of the normalized LSym laplacian of the neighborhood matrix m.
+   returns nvecs number of eigenvectors corresponding to the smallest eigenvalues stored columnwise as a matrix
+
+spccFastClus(m, nclus, laplacian='normalizedRW', 
+            neighborhood_fun='gaussian', sigma=1, neighborhood_type='knn', k=10);
+    performs spectral clustering with use of builtin FASTCLUS procedure
+    returns the input matrix m with an additional column containing cluster labels
+
+spccKNNNeigh(neigh, k=10);
+   transforms a complete neighborhood matrix to a knn neighborhood matrix
+   connecting only vertices where at least one belongs to the k nearest neighbors
+   of the other 
+   returns a symmetric neighborhood matrix with zeros on the main diagonal,
+   unconnected vertices have neighborhood value of 0
+
+spccMutKNNNeigh(neigh, k=10);
+   transforms a complete neighborhood matrix to a mutual knn 
+   neighborhood matrix connecting only vertices that both belong to the 
+   k nearest neighbors of the other
+   returns a symmetric neighborhood matrix with zeros on the main diagonal,
+   unconnected vertices have neighborhood value of 0
+
+spccGaussNeigh(m, sigma=1);
+   computes the pairwise neighborhood values between observations
+   using gaussian neighborhood function
+   returns a symmetric neighborhood matrix with zeros on the main diagonal
+
+spccNegEuclidNeigh(m);
+   computes the pairwise neighborhood values between observations
+   using negative euclidean pairwise distances
+   returns a symmetric neighborhood matrix with zeros on the main diagonal
+
+
