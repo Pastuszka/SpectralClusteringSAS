@@ -8,9 +8,12 @@
 	%EM_PROPERTY(NAME=MaxIter,		VALUE=10);
 	%EM_PROPERTY(NAME=Distance,		VALUE=EUCLIDEAN);
 	%EM_PROPERTY(NAME=Seed,			VALUE=12346);
+	%EM_PROPERTY(NAME=Impute,		VALUE=mean);
+	%EM_PROPERTY(NAME=Standard,		VALUE=yes);
 	%EM_PROPERTY(NAME=ClusRole,		VALUE=SEGMENT,		ACTION=SCORE);
 	
 
+	%EM_REGISTER(key=import_data, type=data);
 	%EM_REGISTER(key=vectors, type=data);
 	%EM_REGISTER(key=indvectors, type=data);
 	%EM_REGISTER(key=OUTSTAT, type=DATA);                                                                                                                                                                                                                       
