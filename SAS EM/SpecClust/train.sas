@@ -55,33 +55,39 @@ options minoperator;
 		%put &em_codebar;
 		%goto doenda;
 	%end;
-	/*	-----Check input dataset for missing values----
-	proc means data=&em_import_data nmiss noprint;
-		var %EM_INTERVAL_INPUT %EM_ORDINAL_INPUT %EM_BINARY_INPUT ;
-		output out=_tmp_miss nmiss=nmiss;
-	run;
+	
 
-	data _null_;
-		set _tmp_miss;
-		call symputx("nmiss", nmiss, "L");
-	run;
-	%if %SYSEVALF(&nmiss > 0) %then %do;
-		%let EMEXCEPTIONSTRING = ERROR;
-		%put &em_codebar;
-		%put Error: Dataset contains missing values!;
-		%put &em_codebar;
-		%goto doenda;
-	%end;
-*/
-	/*	-----Standarization----*/
+	/*	-----Standarization and imputation----*/
 	data &em_user_import_data;
 		set &em_import_data;
 	run;
 
-	PROC STANDARD data=&em_user_import_data %if &em_property_Standard eq yes %then MEAN=0 STD=1; %if &em_property_Impute eq mean %then REPLACE; OUT=&em_user_import_data;
+	PROC STANDARD data=&em_user_import_data %if &em_property_Standard eq Y %then MEAN=0 STD=1; 
+%if &em_property_Impute eq mean %then REPLACE; OUT=&em_user_import_data;
 		var %EM_INTERVAL_INPUT %EM_ORDINAL_INPUT %EM_BINARY_INPUT ;
 	run;
+	
+	/*	-----Check input dataset for missing values----*/
+	%if &em_property_Impute eq none %then %do;
+		proc means data=&em_user_import_data nmiss noprint;
+			var %EM_INTERVAL_INPUT %EM_ORDINAL_INPUT %EM_BINARY_INPUT ;
+			output out=_tmp_miss nmiss=nmiss;
+		run;
 
+		data _null_;
+			set _tmp_miss;
+			call symputx("nmiss", nmiss, "L");
+		run;
+		%if %SYSEVALF(&nmiss > 0) %then %do;
+			%let EMEXCEPTIONSTRING = ERROR;
+			%put &em_codebar;
+			%put Error: Dataset contains missing values!;
+			%put &em_codebar;
+			%goto doenda;
+		%end;
+	%end;
+
+	/*	-----Preparing laplacian matrix----*/
 	proc iml;
     
 		package load spectralclust;
@@ -103,7 +109,7 @@ options minoperator;
 		CALL symput("nvar", putn(ncol(m), "BEST6."));
 	quit;
 	
-	
+	/*	-----Clusterization using k-means----*/
 	ods listing exclude  Standardization ;                                                                                                                                                                                                 
     filename flowtemp "&em_file_emflowscorecode";                                                                                                                                                                                                               
     ods output PerformanceInfo = _tmp_outperformanceinfo ModelInfo = &em_user_modelinfo NObs = _tmp_outnobs                                                                                                                                                         
@@ -121,7 +127,8 @@ options minoperator;
         /* performance statement */                                                                                                                                                                                                                             
         &hpdm_performance.;                                                                                                                                                                                                                                     
     run;  
-
+	
+	/*	-----Preparing output dataset----*/
 	data &em_export_train;
 		set &em_user_import_data;
 		set _tmp_out_score(drop=_DISTANCE_);
