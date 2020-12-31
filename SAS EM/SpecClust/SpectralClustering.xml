@@ -168,10 +168,33 @@
 	</ChoiceList>
 	</Control>        
 </Property>
+<Property
+	type="boolean"
+	name="Standard"
+	displayName="Standardization"
+	description="Indicates if variables should be standardized before clusterization."
+	initial="N" />
+<Property 
+	type="String" 
+	name="Impute" 
+	displayName="Imputation" 
+	description="Indicates type of imputation of missing data. 
+	Option None indicates that missing data will not be imputed which can cause errors. 
+	Option mean indicates that missing values will be replaced with column's mean value."
+	initial="none">
+	<Control>
+	<ChoiceList>
+		<Choice rawValue="none" displayValue="None" />
+	    <Choice rawValue="mean" displayValue="Mean" />
+	</ChoiceList>
+	</Control>        
+</Property>
 </PropertyDescriptors>
 <Views>
 	<View name="Train">
 		<PropertyRef nameref="VariableSet"/>
+		<PropertyRef nameref="Standard"/>
+		<PropertyRef nameref="Impute"/>
 		<PropertyRef nameref="ClusterNum"/>
 		<PropertyRef nameref="Laplacian"/>
 		<PropertyRef nameref="NeighFun"/>
