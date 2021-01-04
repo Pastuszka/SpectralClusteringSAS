@@ -1,7 +1,7 @@
 # SAS/IML Package Information File Format 1.0
 Name:        spectralclust
 Description: Spectral clustering for SAS
-Author:      Michal Pastuszka <michal.pastuszka98@gmail.com> Wojciech Bogucki <>
+Author:      Michal Pastuszka <pastuszkam@student.mini.pw.edu.pl> Wojciech Bogucki <boguckiw@student.mini.pw.edu.pl>
 Version:     0.5
 RequiresIML: 15.1
 SourceFiles: spccEigenL.iml
