@@ -10,7 +10,7 @@
 	%EM_GETNAME(key=CLUSTERBASEDVARSTAT, type=DATA);
 /*	Eigenvectors*/
 	proc sort data=&em_user_vectors out=&em_user_indvectors(drop=_CLUSTER_ID_ _DISTANCE_);
-		by _CLUSTER_ID_ _DISTANCE_;
+		by _CLUSTER_ID_;
 	run;
 
 	data &em_user_indvectors;
