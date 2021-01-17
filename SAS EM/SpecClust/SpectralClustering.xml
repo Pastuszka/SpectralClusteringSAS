@@ -51,8 +51,8 @@
 <Property
 	type="String"
 	name="Neighborhood"
-	displayName="Neighborhood Matrix Type"
-	description="Indicates the type of neighborhood matrix used to create neighborhood graph. 
+	displayName="Similarity Graph Type"
+	description="Indicates the type of similarity graph used in algorithm. 
 	Complete option indicates complete graph. 
 	KNN option indicates graph where every node is connected with its k nearest neighbors.
 	Mutual KNN option indicates graph where two nodes are connected if both of them are in each others k nearest neighbors set."
@@ -85,13 +85,13 @@
 	type="String"
 	name="NeighFun"
 	displayName="Similarity Function"
-	description="Indicates the type of similarity function used to calculate similarity of the nodes in neighborhood graph"
+	description="Indicates the type of similarity function used to calculate similarity of the observations"
 	initial="gaussian" >
 	<Control>
 		<ChoiceList>
-		<Choice rawValue="none"/>
+		<Choice rawValue="none" displayValue="None"/>
 		<Choice rawValue="gaussian" displayValue="Gaussian Function"/>
-		<Choice rawValue="neg_euclid" displayValue="Shifted negative euclidean"/>
+		<Choice rawValue="neg_euclid" displayValue="Shifted Negative Euclidean"/>
 		</ChoiceList>
 	</Control>
 </Property>
@@ -113,7 +113,7 @@
 	type="int"
 	name="K"
 	displayName="K"
-	description="Indicates the number of nearest neighbors used in KNN neighborhood type"
+	description="Indicates the number of nearest neighbors used in KNN and mutual KNN similarity graphs"
 	initial="5" >
 	<Control>
 		<Range min="1" excludeMin="N" />
@@ -124,7 +124,7 @@
 	type="int" 
 	name="MaxIter"
     displayName="Maximal number of iterations"
-    description="Indicates maximal number of iteration in HPCLUS procedure" 
+    description="Indicates maximal number of iterations in HPCLUS procedure" 
 	initial="10">
     <Control>
        	<Range min="1" max="500" />
@@ -134,7 +134,7 @@
 	type="String" 
 	name="DISTANCE" 
 	displayName="Distance" 
-	description="Indicates type of distance measure used in HPCLUS procedure"
+	description="Indicates the type of distance measure used in HPCLUS procedure"
 	initial="EUCLIDEAN">
 	<Control>
 	<ChoiceList>
