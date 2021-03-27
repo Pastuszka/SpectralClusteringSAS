@@ -1,4 +1,4 @@
-
+[![Apache license](https://img.shields.io/badge/License-Apache-blue.svg)](https://github.com/Pastuszka/SpectralClusteringSAS/blob/main/LICENSE)
 
 # SpectralClusteringSAS
 Implementation of spectral clustering for SAS EM and more
