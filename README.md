@@ -22,7 +22,7 @@ package load spectralClust;
 ```
 You might need administrator privilages to perform this operation.
 
-3. Copy XML file from repository (SpectralClusteringSAS\SAS EM\SpecClust\SpectralClustering.xml) to directory SASHome\SASEnterpriseMinerWorkstationConfiguration\&lt;version&gt;\WEB-INF\classes\components.
+3. Copy XML file from repository (SpectralClusteringSAS\SAS EM\SpecClust\SpectralClustering.xml) to directory SASHome\SASEnterpriseMinerWorkstationConfiguration\\&lt;version&gt;\WEB-INF\classes\components.
 Usually SASHome directory is in C:\Program Files directory on Windows.
 &lt;version&gt; means wersion of SAS Enterprise Miner, e.g. 15.1
 
