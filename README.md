@@ -26,7 +26,7 @@ You might need administrator privilages to perform this operation.
 Usually SASHome directory is in C:\Program Files directory on Windows.
 &lt;version&gt; means wersion of SAS Enterprise Miner, e.g. 15.1
 
-4. Add below line to file SASHome\SASEnterpriseMinerWorkstationConfiguration\&lt;version&gt;\WEB-INF\classes\components\EMList.txt
+4. Add below line to file SASHome\SASEnterpriseMinerWorkstationConfiguration\\&lt;version&gt;\WEB-INF\classes\components\EMList.txt
 ```
 SpectralClustering=SpectralClustering.xml
 ```
@@ -36,7 +36,7 @@ SpectralClustering=SpectralClustering.xml
  * SpectralClusteringSAS\SAS EM\SpecClust\gif16, 
  * SpectralClusteringSAS\SAS EM\SpecClust\gif32 
 
-to repsective directories in SASHome\SASEnterpriseMinerWorkstationConfiguration\&lt;version&gt;\WEB-INF\classes\components.
+to repsective directories in SASHome\SASEnterpriseMinerWorkstationConfiguration\\&lt;version&gt;\WEB-INF\classes\components.
 You might need administrator privilages to perform this operation.
 
 6. Start or restart SAS Enterprise Miner
