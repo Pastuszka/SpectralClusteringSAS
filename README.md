@@ -3,7 +3,7 @@
 # SpectralClusteringSAS
 Implementation of spectral clustering for SAS Enterprise Miner and more.
 
-## Instalation of IML package
+## Installation of IML package
 
 To install the package use within proc iml:
 ```
