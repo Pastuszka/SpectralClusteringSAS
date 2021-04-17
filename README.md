@@ -11,21 +11,28 @@ load the package with:
 ```
 package load spectralClust;
 ```
-## Installation for SAS Enterprise Miner
+## Installation guide for SAS Enterprise Miner
 
-### Creating catalog in sashelp
-Open SAS session, copy below code, change *Path_to_repository* to path where your SpectralClusteringSAS directory is palced and run code.
+1. Clone this repository or download it as ZIP and place it in location on your disk available for SAS.
+2. Open SAS session, copy below code, change *Path_to_repository* to path where your SpectralClusteringSAS directory is palced and run the code.
 ```
 %include "Path_to_repository\SpectralClusteringSAS\SAS EM\SpecClust\create_catalog.sas";
 %createCatalog(Path_to_repository);
 ```
 You might need administrator privilages to perform this operation.
-### Copying other files
-Copy XML file SpectralClusteringSAS\SAS EM\SpecClust\SpectralClustering.xml to SASHome\SASEnterpriseMinerWorkstationConfiguration\<version>\WEB-INF\classes\components.
+3. Copy XML file from repository (SpectralClusteringSAS\SAS EM\SpecClust\SpectralClustering.xml) to directory SASHome\SASEnterpriseMinerWorkstationConfiguration\\<version>\WEB-INF\classes\components.
 Usually SASHome directory is in C:\Program Files directory on Windows.
-Add below line to file SASHome\SASEnterpriseMinerWorkstationConfiguration\<version>\WEB-INF\classes\components\EMList.txt
+<version> means wersion of SAS Enterprise Miner, e.g. 15.1
+4. Add below line to file SASHome\SASEnterpriseMinerWorkstationConfiguration\\<version>\WEB-INF\classes\components\EMList.txt
 ```
 SpectralClustering=SpectralClustering.xml
 ```
-Copy icons from SpectralClusteringSAS\SAS EM\SpecClust\gif, SpectralClusteringSAS\SAS EM\SpecClust\gif16, SpectralClusteringSAS\SAS EM\SpecClust\gif32 to repsective directories in SASHome\SASEnterpriseMinerWorkstationConfiguration\<version>\WEB-INF\classes\components.
+5. Copy icons from 
+ * SpectralClusteringSAS\SAS EM\SpecClust\gif, 
+ * SpectralClusteringSAS\SAS EM\SpecClust\gif16, 
+ * SpectralClusteringSAS\SAS EM\SpecClust\gif32 
+ to repsective directories in SASHome\SASEnterpriseMinerWorkstationConfiguration\\<version>\WEB-INF\classes\components.
 You might need administrator privilages to perform this operation.
+6. Start or restart SAS Enterprise Miner
+7. In Exploration tab there should be available new Spectral Clustering node
+
